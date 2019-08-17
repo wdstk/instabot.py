@@ -847,11 +847,14 @@ class InstaBot:
                 )
                 return
 
-            if self.user_max_follow != 0 and followers > self.user_max_follow:
+            elif self.user_max_follow != 0 and followers > self.user_max_follow:
                 self.logger.info(
                     f"Won't follow {username}: does not meet user_max_follow requirement"
                 )
                 return
+
+            else:
+                return True
 
         except Exception as exc:
             self.logger.exception(exc)
