@@ -847,14 +847,11 @@ class InstaBot:
                 )
                 return
 
-            elif self.user_max_follow != 0 and followers > self.user_max_follow:
+            if self.user_max_follow != 0 and followers > self.user_max_follow:
                 self.logger.info(
                     f"Won't follow {username}: does not meet user_max_follow requirement"
                 )
                 return
-
-            else:
-                return True
 
         except Exception as exc:
             self.logger.exception(exc)
@@ -953,13 +950,14 @@ class InstaBot:
             return True
 
     def verify_unfollow(self, user_name):
-        user_info = self.get_user_info(user_name)
-        if not user_info:
-            return False
-
+        # skip getting user
         if self.unfollow_everyone:
             self.logger.debug("Ignore verifications, Unfollow everyone flag is set")
             return True
+
+        user_info = self.get_user_info(user_name)
+        if not user_info:
+            return False
 
         self.logger.debug(f"Getting user info : {user_name} - "
                           f"Followers : {user_info.get('followers')} - "
